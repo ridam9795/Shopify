@@ -139,6 +139,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 
 }
+STATIC_ROOT = "/shopify/shop/static"
+
 
 
 # Default primary key field type
