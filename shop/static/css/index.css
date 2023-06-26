@@ -1,0 +1,110 @@
+.card-body
+{
+    padding:1rem 1.25rem 0rem 1.25rem;
+}
+.myProducts
+{
+display: inline-block;
+margin-left:-4px;
+}
+.carousel-indicators .active {
+background-color: blue;
+}
+.mycard{
+    background: #fff;
+    width: 100%;
+    left:15%;
+    position:relative;
+
+}
+body .carousel-indicator li{
+background-color: blue;
+}
+body .carousel-indicators{
+bottom: -40px;
+}
+.carousel-indicators li {
+box-sizing: content-box;
+-ms-flex: 0 1 auto;
+flex: 0 1 auto;
+width: 30px;
+height: 3px;
+margin-right: 3px;
+margin-left: 3px;
+text-indent: -999px;
+cursor: pointer;
+background-color: #7270fc;
+background-clip: padding-box;
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+opacity: .5;
+transition: opacity .6s ease;
+}
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon{
+background-color: blue;
+}
+.carousel-control-prev,
+.carousel-control-next{
+top: auto;
+bottom: auto;
+padding-top: 222px;
+}
+body .no-padding{
+padding-left: 0;
+padding-right: 0;
+}
+
+@media (min-width: 992px) {
+.top-slider-image{
+width: 1363px !important;
+z-index: -1;
+margin-bottom: -150px;
+height:700px;
+}
+}
+@media (max-width: 767px) {
+.top-slider-image{
+width: 100% !important;
+height:400px !important;
+}
+
+}
+
+.gap{
+    display:inline-table;
+    margin:20px;
+}
+
+.card{
+    margin:15px;
+}
+@media (min-width: 576px){
+.form-inline .form-control {
+    display: inline-block;
+    width: 494px !important;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+}
+.home {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1500px;
+}
+
+.home__row {
+  display: flex;
+  z-index: 1;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.home__image {
+  width: 100%;
+  z-index: -1;
+  margin-bottom: -150px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}

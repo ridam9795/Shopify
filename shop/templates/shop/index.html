@@ -1,0 +1,119 @@
+{% extends 'shop/basic.html' %}
+{% block title %} EShoppers - Home {% endblock %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+
+<div id="mySidenav" class="sidenav">
+   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+   <h3 class="text-white text-center">Shopping cart</h3>
+   <hr class="border-white"/>
+
+   <div class="justify-content-center " style="width: 18rem;background-color:#111" id="cart-item">
+   
+   </div>
+   <hr class="border-white w-75"/>
+      <div class="text-center my-3">
+        <div class="row">
+         <div class="col-md-6">
+      <h5 class="text-white mt-3" >Total:</h5>
+         </div>
+         <div class="col-md-6">
+      <h5 class="text-white mt-3" id="cart-price"></h5>
+        </div>
+        </div>
+    
+
+   <a class="btn btn-secondary w-75 my-2" href="viewcart/" >View Cart</a>
+   <a class="btn btn-danger w-75" >Checkout</a>
+   </div>
+</div>
+<div class=" slide pl-0 ml-0">
+    <div class="row">
+        <div id="carouselTopProductIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselTopProductIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselTopProductIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselTopProductIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block top-slider-image object-fit-cover" src="{% static 'shop/gadgets.jpg' %}" alt="First slide" width="100%" />
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block top-slider-image object-fit-cove" src="{% static 'shop/grocery.jpg' %}" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block top-slider-image object-fit-cove" src="{% static 'shop/cloths.jpg' %}" alt="Third slide">
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <h1>Products will show here</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!--Slideshow starts here -->
+    {% for product, range, nSlides in allProds %}
+    <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+    <div class="row">
+        <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
+            <ul class="carousel-indicators">
+                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                {% for i in range %}
+                <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+                {% endfor %}
+            </ul>
+            <div class="container carousel-inner no-padding">
+                <div class="carousel-item active">
+                    {% for i in product %}
+                    <div class="col-xs-3 col-sm-3 col-md-3 myProducts">
+                        <div class="card align-items-center" style="width: 18rem;">
+                            <img id="imgpr{{i.id}}" src='/media/{{i.image}}' class="card-img-top" alt="..." width="200px" height="250px">
+                            <div class="card-body">
+                                <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+                                <p class="card-text" id="descpr{{i.id}}">{{i.desc|slice:"0:53"}}...</p>
+                                <h6 class="card-title">Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                                <span id="divpr{{i.id}}" class="divpr">
+                                    <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                                </span>
+                                <a href="/shop/products/{{i.id}}">
+                                    <button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+                </div>
+                <div class="carousel-item">
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- left and right controls for the slide -->
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    {% endfor %}
+
+
+</div>
+{{product_data|json_script:"products"}}
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/index.js'%}">
+// Find out the cart items from localStorage
+
+</script>
+{% endblock %}

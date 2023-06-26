@@ -1,0 +1,219 @@
+{% extends 'shop/basic.html' %}
+{% block title %} EShoppers - Home {% endblock %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<style>
+body{
+    background-color:#EAEDED !important;
+}
+</style>
+{% comment %} <div id="mySidenav" class="sidenav">
+   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+   <h3 class="text-white text-center">Shopping cart</h3>
+   <hr class="border-white"/>
+
+   <div class="justify-content-center " style="width: 18rem;background-color:#111" id="cart-item">
+   
+   </div>
+   <hr class="border-white w-75"/>
+      <div class="text-center my-3">
+        <div class="row">
+         <div class="col-md-6">
+      <h5 class="text-white mt-3" >Total:</h5>
+         </div>
+         <div class="col-md-6">
+      <h5 class="text-white mt-3" id="cart-price"></hs5>
+        </div>
+        </div>
+    
+
+   <a class="btn btn-secondary w-75 my-2" href="viewcart/" >View Cart</a>
+   <a href="/shop/checkout/" class="btn btn-danger w-75" >Checkout</a>
+   </div>
+</div> {% endcomment %}
+
+
+    <img src="https://www.91-cdn.com/hub/wp-content/uploads/2023/01/amazon-great-indian-republic-day-sale.png" width="100%" height="400px"/>
+    <!--Slideshow starts here -->
+
+   
+    
+    <div class="row mx-5 my-5" >
+     <div class="col-md-8 mr-5" >
+       <div class=" bg-white row p-3">
+        <h2 class="">Shopping cart</h2>
+       </div>
+       <div id="checkout-items">
+       
+       </div>
+       
+     </div>
+     <div class="col-md-3 bg-white p-3 " style="height:210px">
+     <h6 class="text-success">
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</svg>
+Your order is eligible for FREE Delivery.
+</h6>
+<h5>Subtotal (<span id="totalQuantity"></span> items):  <span id="subtotal"> </span></h5>
+<input type="checkbox" value="gift"/><span class="ml-2">This order contains a gift</span>
+<div class="text-center my-3" >
+
+<a href="/shop/checkout/" class="btn btn-warning w-75">Proceed to Buy</a>
+
+</div>
+
+     </div>
+   
+
+
+</div>
+{% endblock %}
+{% block js %}
+<script>
+if (localStorage.getItem("cart") == null) {
+  var cart = {};
+} else {
+  cart = JSON.parse(localStorage.getItem("cart"));
+
+  updateCart(cart);
+}
+function updateCart(cart) {
+  var sum = 0;
+
+  for (var item in cart) {
+   
+   
+    sum += cart[item].quantity;
+
+  }
+  localStorage.setItem("cart", JSON.stringify(cart));
+  document.getElementById("cart").innerHTML = sum;
+
+  //  updatePopover(cart);
+
+  updateSideCart(cart);
+}
+function updateSideCart(cart) {
+  let i = 1;
+  document.getElementById("cart-item").innerHTML = "";
+  let total = 0;
+  for (var item in cart) {
+    total += cart[item].quantity * cart[item].price; 
+    document.getElementById("cart-item").innerHTML +=
+      "<div class='mycard row'><div class='card-body col-md-7'><h5 class='card-title'>" +
+      cart[item].name +
+      "</h5><p class='card-text'>" +
+      cart[item].description +
+      "</p><p class='card-quantity'>" +
+      cart[item].quantity +
+      " X " +
+      "₹" +
+      cart[item].price +
+      "</p></div><div class='col-md-5  mt-3'><img src=" +
+      cart[item].src +
+      " height='150px' width='100px'/></div></div><br/>";
+
+  }
+  document.getElementById("cart-price").innerHTML =
+    "₹" + total.toLocaleString();
+}
+// Find out the cart items from localStorage
+
+function checkoutItems(){
+
+  let subtotal=0;
+  len=0
+  document.getElementById('checkout-items').innerHTML="";
+  for(let c in cart){
+    subtotal+=cart[c].price*cart[c].quantity
+    len+=cart[c].quantity;
+
+    $('#checkout-items').append("<div id=card-item"+c+" class='bg-white row p-3 divpr'><hr class='border-dark w-100' /><div class='col-md-9'><h3>"+cart[c].name+"</h3>   <p>"+cart[c].description+"</p><p>Price : "+cart[c].price+" </p><button id=delete-"+c+" class='btn btn-danger delete-item'>Remove Item</button> </div> <div class='col-md-3'><img src="+cart[c].src+"  width='100px' height='80px'><p class='my-2'>Quantity</p><button id=minus-"+c+" class='btn btn-primary minus'>-</button> <span id=quantity-"+c+">"+cart[c].quantity+"</span> <button id=plus-"+c+"  class='btn btn-primary plus'>+</button> </div></div>"
+)
+  }
+  document.getElementById('subtotal').innerHTML=subtotal
+  document.getElementById('totalQuantity').innerHTML=len
+}
+checkoutItems()
+$(".divpr .delete-item").on('click',function(){
+  id=this.id.slice(7);
+   let val=parseInt($('#subtotal').text())-cart[id].price*cart[id].quantity
+  let quantity=parseInt($('#totalQuantity').text())-cart[id].quantity
+  $('#subtotal').text(val)
+  $('#totalQuantity').text(quantity)
+  delete cart[id]
+  updateCart(cart)
+  $("#card-item"+id).remove()
+ 
+  updateSideCart(cart);
+
+  
+})
+function updateSideCart(cart) {
+  let i = 1;
+  document.getElementById("cart-item").innerHTML = "";
+  let total = 0;
+  for (var item in cart) {
+    total += cart[item].quantity * cart[item].price;
+    document.getElementById("cart-item").innerHTML +=
+      "<div class='mycard row'><div class='card-body col-md-7'><h5 class='card-title'>" +
+      cart[item].name +
+      "</h5><p class='card-text'>" +
+      cart[item].description +
+      "</p><p class='card-quantity'>" +
+      cart[item].quantity +
+      " X " +
+      "₹" +
+      cart[item].price +
+      "</p></div><div class='col-md-5  mt-3'><img src=" +
+      cart[item].src +
+      " height='150px' width='100px'/></div></div><br/>";
+  }
+  document.getElementById("cart-price").innerHTML =
+    "₹" + total.toLocaleString();
+}
+
+$(".divpr").on("click", "button.minus", function () {
+
+  
+ id=this.id.slice(6)
+
+ 
+    $('#'+this.id).removeAttr("disabled")
+cart[id].quantity=cart[id].quantity-1;
+  $("#quantity-"+id).text(cart[id].quantity) 
+  let val=parseInt($('#subtotal').text())-cart[id].price
+  let quantity=parseInt($('#totalQuantity').text())-1
+  $('#subtotal').text(val)
+  $('#totalQuantity').text(quantity)
+  updateCart(cart); 
+  if(cart[id].quantity <= 1){
+  this.disabled=true;
+ }
+ 
+
+  
+});
+$(".divpr").on("click", "button.plus", function () {
+
+ id=this.id.slice(5)
+
+ if(cart[id].quantity>=1){
+      $('#minus-'+id).removeAttr("disabled")
+
+ }
+  cart[id].quantity=cart[id].quantity+1;
+  $("#quantity-"+id).text(cart[id].quantity) 
+   let val=parseInt($('#subtotal').text())+cart[id].price
+  $('#subtotal').text(val)
+    let quantity=parseInt($('#totalQuantity').text())+1
+  $('#totalQuantity').text(quantity)
+
+  updateCart(cart); 
+});
+
+</script>
+{% endblock %}
