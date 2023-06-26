@@ -139,7 +139,12 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 
 }
-STATIC_ROOT = "/shopify/shop/static"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    "/shopify/shop/static/",
+    "/shopify/blog/static/",
+]
+
 
 
 
