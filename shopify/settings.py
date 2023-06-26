@@ -19,9 +19,8 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_FILE_PATH=os.path.join(BASE_DIR,'.env')
+ENV_FILE_PATH = os.path.join(BASE_DIR, '.env')
 environ.Env.read_env(ENV_FILE_PATH)
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,9 +28,9 @@ environ.Env.read_env(ENV_FILE_PATH)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG=os.environ.get("DEBUG")
-DEV_ENV=os.environ.get("MODE")=='development'
-DB_CONNECTION=os.environ.get("DB_CONNECTION")
+DEBUG = os.environ.get("DEBUG")
+DEV_ENV = os.environ.get("MODE") == 'development'
+DB_CONNECTION = os.environ.get("DB_CONNECTION")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,7 +42,6 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
-    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,15 +85,15 @@ WSGI_APPLICATION = 'shopify.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 if DEV_ENV:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-           }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 else:
-    DATABASES={
-        'default':dj_database_url.parse(DB_CONNECTION)
-        }
+    DATABASES = {
+        'default': dj_database_url.parse(DB_CONNECTION)
+    }
 
 
 # Password validation
@@ -140,12 +138,9 @@ MESSAGE_TAGS = {
 
 }
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
     "/shopify/shop/static/",
-    "/shopify/blog/static/",
+
 ]
-
-
 
 
 # Default primary key field type
